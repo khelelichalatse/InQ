@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "29833038058",
+    "firebase_url": "https://inq-plat-default-rtdb.firebaseio.com",
+    "project_id": "inq-plat",
+    "storage_bucket": "inq-plat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29833038058:android:2cb6004053768be09cef93",
+        "android_client_info": {
+          "package_name": "com.example.inq_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "29833038058-vf2eg5k33bc0hakmhc6s98nlni8199on.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.inq_app",
+            "certificate_hash": "2d43f0491d003ae6cfee6a7194cb3a9dc0d9f533"
+          }
+        },
+        {
+          "client_id": "29833038058-am60t21rnmqeuo8h6gpg10v1muipkkt2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBY-01zeUVYZfpYfmR83q0UerCfqmuw4-4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "29833038058-am60t21rnmqeuo8h6gpg10v1muipkkt2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
