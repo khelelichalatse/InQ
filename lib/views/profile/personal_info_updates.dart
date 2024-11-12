@@ -3,11 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:inq_app/services/firebase_auth_service.dart';
-import 'package:inq_app/views/Authentication/login_.dart';
+import 'package:inq_app/views/Authentication/login_signup.dart';
 import 'package:inq_app/widgets/profile_page_textbox.dart';
 import 'package:inq_app/services/twilio_service.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
-
 
 class ProfileUpdateScreen extends StatefulWidget {
   const ProfileUpdateScreen({Key? key}) : super(key: key);
@@ -80,7 +79,10 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
               ),
               actions: [
                 TextButton(
-                  child: const Text('Cancel'),
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(color: Colors.black),
+                  ),
                   onPressed: () => Navigator.of(context).pop(false),
                 ),
                 TextButton(
@@ -115,7 +117,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
         if (context.mounted) {
           Navigator.pushAndRemoveUntil(
             context,
-            MaterialPageRoute(builder: (context) => const Login()),
+            MaterialPageRoute(builder: (context) => const LoginScreenHome()),
             (route) => false,
           );
         }
@@ -335,12 +337,16 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[100], // Light background for contrast
+      backgroundColor: Theme.of(context)
+          .colorScheme
+          .surface, // Light background for contrast
       appBar: AppBar(
         elevation: 0, // Remove shadow
-        title: const Text(
+        title: Text(
           'Update Profile',
-          style: TextStyle(fontWeight: FontWeight.normal),
+          style: TextStyle(
+              fontWeight: FontWeight.normal,
+              color: Theme.of(context).colorScheme.tertiary),
         ),
         backgroundColor: Colors.orange,
       ),
@@ -381,7 +387,8 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                           radius: 50,
                           backgroundColor: Colors.grey[200],
                           child: Text(
-                            (userData?['Name']?.toString() ?? 'U')[0].toUpperCase(),
+                            (userData?['Name']?.toString() ?? 'U')[0]
+                                .toUpperCase(),
                             style: const TextStyle(
                               fontSize: 40,
                               fontWeight: FontWeight.bold,
@@ -393,8 +400,8 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                       const SizedBox(height: 10),
                       Text(
                         userData?['Email']?.toString() ?? 'Email not available',
-                        style: const TextStyle(
-                          color: Colors.black,
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.tertiary,
                           fontSize: 16,
                         ),
                       ),
@@ -419,7 +426,7 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
-                              color: Colors.grey[800],
+                              color: Theme.of(context).colorScheme.tertiary,
                             ),
                           ),
                         ],
@@ -446,17 +453,20 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                               child: Column(
                                 children: [
                                   MyTextBox(
-                                    text: userData?['Name']?.toString() ?? 'Not set',
+                                    text: userData?['Name']?.toString() ??
+                                        'Not set',
                                     sectionName: 'Name',
                                     onPressed: () => editField('Name'),
                                   ),
                                   MyTextBox(
-                                    text: userData?['Surname']?.toString() ?? 'Not set',
+                                    text: userData?['Surname']?.toString() ??
+                                        'Not set',
                                     sectionName: 'Surname',
                                     onPressed: () => editField('Surname'),
                                   ),
                                   MyTextBox(
-                                    text: userData?['StudentID']?.toString() ?? 'Not set',
+                                    text: userData?['StudentID']?.toString() ??
+                                        'Not set',
                                     sectionName: 'Student Number',
                                     onPressed: () {
                                       ScaffoldMessenger.of(context)
@@ -471,7 +481,9 @@ class _ProfileUpdateScreenState extends State<ProfileUpdateScreen> {
                                     },
                                   ),
                                   MyTextBox(
-                                    text: userData?['Phone Number']?.toString() ?? 'Not set',
+                                    text:
+                                        userData?['Phone Number']?.toString() ??
+                                            'Not set',
                                     sectionName: 'Phone Number',
                                     onPressed: editPhoneNumber,
                                   ),

@@ -152,7 +152,7 @@ class AuthService {
       if (e.code == 'user-not-found') {
         return {"emailError": "No user found for that email."};
       } else if (e.code == 'wrong-password') {
-        return {"passwordError": "Wrong password provided for that user."};
+        return {"passwordError": "Invalid password."};
       } else if (e.code == 'invalid-email') {
         return {"emailError": "Invalid email address."};
       } else {

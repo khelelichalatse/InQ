@@ -126,19 +126,19 @@ class FeedbackSupport extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(Icons.feedback_outlined,
-              size: SizeConfig.text(8), color: Colors.grey.shade400),
+              size: SizeConfig.text(20), color: Colors.grey.shade400),
           SizedBox(height: SizeConfig.height(2)),
           Text(
             'No feedback history available',
             style: TextStyle(
-              fontSize: SizeConfig.text(2.2),
+              fontSize: SizeConfig.text(4),
               fontWeight: FontWeight.bold,
             ),
           ),
           const SizedBox(height: 8),
           const Text(
             'Your feedback will appear here once you submit it',
-            style: TextStyle(fontSize: 14, color: Colors.grey),
+            style: TextStyle(fontSize: 16, color: Colors.grey),
           ),
         ],
       ),
@@ -154,63 +154,71 @@ class FeedbackSupport extends StatelessWidget {
         final appointmentInfo = data['appointmentInfo'] as Map<String, dynamic>;
         final questionRatings = data['questionRatings'] as Map<String, dynamic>;
 
-        return Card(
-          margin: EdgeInsets.symmetric(
-            horizontal: SizeConfig.width(4),
-            vertical: SizeConfig.height(1),
-          ),
-          elevation: 4,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-          child: ExpansionTile(
-            title: Text(
-              appointmentInfo['service'] ?? 'Unknown Service',
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+        return Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: Card(
+            color: Theme.of(context).colorScheme.onTertiary,
+            margin: EdgeInsets.symmetric(
+              horizontal: SizeConfig.width(4),
+              vertical: SizeConfig.height(1),
             ),
-            subtitle: Text(
-              _formatTimestamp(data['timestamp'] as Timestamp),
-              style: TextStyle(color: Colors.grey[600]),
-            ),
-            leading: CircleAvatar(
-              backgroundColor: Colors.orange.shade100,
-              child: Text(
-                _calculateAverageRating(questionRatings).toStringAsFixed(1),
-                style: const TextStyle(
-                    color: Colors.orange, fontWeight: FontWeight.bold),
+            elevation: 4,
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            child: ExpansionTile(
+              title: Text(
+                appointmentInfo['service'] ?? 'Unknown Service',
+                style:
+                    const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
-            ),
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildInfoRow('Department',
-                        appointmentInfo['department'] ?? 'Unknown'),
-                    _buildInfoRow('Ref',
-                        appointmentInfo['appointmentReferenceNumber'] ?? 'N/A'),
-                    const Divider(),
-                    const Text(
-                      'Ratings:',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    const SizedBox(height: 8),
-                    ...questionRatings.entries
-                        .map((entry) => _buildRatingRow(entry.key, entry.value))
-                        .toList(),
-                    const Divider(),
-                    const Text(
-                      'Comment:',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(data['comment'] ?? 'No comment provided'),
-                  ],
+              subtitle: Text(
+                _formatTimestamp(data['timestamp'] as Timestamp),
+                style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
+              ),
+              leading: CircleAvatar(
+                backgroundColor: Colors.orange.shade100,
+                child: Text(
+                  _calculateAverageRating(questionRatings).toStringAsFixed(1),
+                  style: const TextStyle(
+                      color: Colors.orange, fontWeight: FontWeight.bold),
                 ),
               ),
-            ],
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _buildInfoRow('Department',
+                          appointmentInfo['department'] ?? 'Unknown'),
+                      _buildInfoRow(
+                          'Ref',
+                          appointmentInfo['appointmentReferenceNumber'] ??
+                              'N/A'),
+                      const Divider(),
+                      const Text(
+                        'Ratings:',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      const SizedBox(height: 8),
+                      ...questionRatings.entries
+                          .map((entry) =>
+                              _buildRatingRow(entry.key, entry.value))
+                          .toList(),
+                      const Divider(),
+                      const Text(
+                        'Comment:',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(data['comment'] ?? 'No comment provided'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -294,89 +302,4 @@ class FeedbackSupport extends StatelessWidget {
   }
 }
 
-// export default function Component() {
-//   return <FeedbackSupport />;
-// }
-// class FeedbackSupport extends StatefulWidget {
-//   const FeedbackSupport({super.key});
 
-//   @override
-//   State<FeedbackSupport> createState() => _FeedbackSupportState();
-// }
-
-// class _FeedbackSupportState extends State<FeedbackSupport> {
-//   @override
-//   Widget build(BuildContext context) {
-//     final feedbackNotifier = Provider.of<FeedbackNotifier>(context);
-// // final appointmentProvider = Provider.of<AppointmentProvider>(context);
-
-//     return Scaffold(
-//       appBar: AppBar(
-//         backgroundColor: Colors.orange,
-//         title: const Text('Enquiry History'),
-//       ),
-//       backgroundColor: Colors.grey.shade300,
-//       body: feedbackNotifier.feedbackList.isEmpty
-//           ? const Center(child: Text('No feedbacks'))
-//           : Expanded(
-//               child: ListView.builder(
-//                 itemCount: feedbackNotifier.feedbackList.length,
-//                 itemBuilder: (context, index) {
-//                   return Container(
-//                     decoration: BoxDecoration(
-//                         color: Colors.white,
-//                         borderRadius: BorderRadius.circular(15)),
-//                     margin: const EdgeInsets.all(10),
-//                     child: ListTile(
-//                       title: const Text("", //to be done
-//                           style: TextStyle(
-//                               fontSize: 18, fontWeight: FontWeight.bold)),
-//                       subtitle: Column(
-//                           crossAxisAlignment: CrossAxisAlignment.start,
-//                           children: [
-//                             RatingBar.builder(
-//                               initialRating: feedbackNotifier
-//                                   .feedbackList[index]['rating'],
-//                               minRating: 1,
-//                               direction: Axis.horizontal,
-//                               allowHalfRating: false,
-//                               itemCount: 5,
-//                               itemSize: 30,
-//                               itemPadding:
-//                                   const EdgeInsets.symmetric(horizontal: 4),
-//                               ignoreGestures: true,
-//                               onRatingUpdate: (rating) {},
-//                               itemBuilder: (BuildContext context, int index) {
-//                                 return const Icon(Icons.star,
-//                                     color: Colors.orange);
-//                               },
-//                             ),
-//                             const SizedBox(
-//                               height: 10,
-//                             ),
-//                             Text(
-//                               feedbackNotifier.feedbackList[index]['feedback'],
-//                               maxLines: 2,
-//                             ),
-//                             const Row(
-//                                 mainAxisAlignment: MainAxisAlignment.start,
-//                                 children: [
-//                                   Text(
-//                                       // 'Date: ${queueNotifier.appointmentList[index]['date']}, ${queueNotifier.appointmentList[index]['time']}')
-//                                       "")
-//                                 ]) //to be done
-//                           ]),
-//                       trailing: Text(
-//                         "${feedbackNotifier.feedbackList[index]['rating']}",
-//                         style: const TextStyle(
-//                           fontSize: 35,
-//                         ),
-//                       ),
-//                     ),
-//                   );
-//                 },
-//               ),
-//             ),
-//     );
-//   }
-// }

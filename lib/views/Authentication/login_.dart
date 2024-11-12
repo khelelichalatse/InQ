@@ -49,6 +49,19 @@ class _LoginState extends State<Login> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(result["generalError"]!)),
         );
+      } else {
+        String? emailError = result["emailError"];
+        String? passwordError = result["passwordError"];
+        if (emailError != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(emailError)),
+          );
+        }
+        if (passwordError != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(passwordError)),
+          );
+        }
       }
     }
   }

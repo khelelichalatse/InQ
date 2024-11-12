@@ -168,8 +168,14 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     final appointments = _filterAppointments(snapshot.data!);
                     return ListView.builder(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      itemCount: appointments.length,
+                      itemCount: appointments.length +
+                          1, // Add 1 for the bottom padding
                       itemBuilder: (context, index) {
+                        if (index == appointments.length) {
+                          // Return a SizedBox as the last item
+                          return const SizedBox(
+                              height: 80); // Height for FAB clearance
+                        }
                         return AppointmentCard(
                           appointment: appointments[index],
                           onTap: () =>
@@ -376,6 +382,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           content:
               Text('You have already submitted feedback for this appointment.'),
           duration: Duration(seconds: 3),
+          backgroundColor: Colors.red,
         ),
       );
     } else {
@@ -415,19 +422,33 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             },
             child: const Text('Close'),
           ),
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop(); // Close the dialog
-              _confirmCancellation(appointment);
-            },
-            child: const Text('Cancel Appointment'),
-          ),
+          if (appointment.status.toLowerCase() != 'in progress' &&
+              appointment.status.toLowerCase() != 'completed')
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close the dialog
+                _confirmCancellation(appointment);
+              },
+              child: const Text('Cancel Appointment'),
+            ),
         ],
       ),
     );
   }
 
   void _confirmCancellation(Appointment appointment) {
+    // Check if the appointment can be cancelled (only upcoming appointments)
+    if (appointment.status.toLowerCase() != 'upcoming') {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Only upcoming appointments can be cancelled.'),
+          duration: Duration(seconds: 3),
+        ),
+      );
+      return;
+    }
+
+    // Show confirmation dialog
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -443,10 +464,10 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           ),
           TextButton(
             onPressed: () async {
-              // Close the confirmation dialog immediately
+              // Close the confirmation dialog
               Navigator.of(context).pop();
 
-              // Show the Lottie animation dialog immediately
+              // Show the Lottie animation dialog
               _showLottieAnimation(
                 animationPath: 'assets/success_tick.json',
                 message: 'Cancelling appointment...',
@@ -601,8 +622,8 @@ class AppointmentCard extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 border: Border.all(
-                    color: Theme.of(context).colorScheme.tertiary, width: 0),
-                color: Theme.of(context).colorScheme.onPrimary,
+                    color: Theme.of(context).colorScheme.tertiary, width: 0.5),
+                color: Theme.of(context).colorScheme.onSecondary,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
@@ -671,15 +692,15 @@ class AppointmentCard extends StatelessWidget {
                           : null,
                     ),
                     Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      appointment.status != 'Completed'
-                          ? TextButton.icon(
-                              onPressed: () {
-                                _addAppointmentToCalendar(appointment);
-                              },
-                              label: const Text("Add event to Calender"),
-                              icon: const Icon(Icons.calendar_month),
-                            )
-                          : Container(),
+                      if (appointment.status != 'Completed' &&
+                          appointment.status.toLowerCase() != 'in progress')
+                        TextButton.icon(
+                          onPressed: () {
+                            _addAppointmentToCalendar(appointment);
+                          },
+                          label: const Text("Add event to Calender"),
+                          icon: const Icon(Icons.calendar_month),
+                        )
                     ])
                   ],
                 ),

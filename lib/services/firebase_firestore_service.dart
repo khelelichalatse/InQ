@@ -232,6 +232,8 @@ class FirestoreService {
             'hour': appointment.appointmentTime.hour,
             'minute': appointment.appointmentTime.minute,
           },
+          'patientName': appointment.patientName,
+          'studentId': appointment.studentId,
           'service': appointment.service,
           'department': appointment.department,
           'appointmentReferenceNumber': appointment.appointmentReferenceNumber,
@@ -246,6 +248,8 @@ class FirestoreService {
           .doc(user.uid)
           .collection('Ratings') // Sub-collection for ratings
           .add(feedbackData);
+
+      await _firestore.collection('Ratings').add(feedbackData);
 
       print("Rating added successfully.");
     } catch (e) {

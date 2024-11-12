@@ -134,7 +134,7 @@ class _AppointmentInfoState extends State<AppointmentInfo> {
                       backgroundColor: Colors.grey,
                     ),
                     onPressed: () {
-                      Navigator.of(context).pushNamed('/navBar', arguments: 1);
+                      Navigator.pop(context);
                     },
                     child: const Text(
                       "Back",

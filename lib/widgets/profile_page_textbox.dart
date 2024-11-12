@@ -42,7 +42,10 @@ class MyTextBox extends StatelessWidget {
               ),
             ],
           ),
-          Text(text),
+          Text(
+            text,
+            style: TextStyle(color: Colors.black),
+          ),
         ],
       ),
     );

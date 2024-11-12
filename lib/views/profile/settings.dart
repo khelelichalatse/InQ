@@ -7,6 +7,7 @@ import 'package:inq_app/services/firebase_auth_service.dart';
 import 'package:inq_app/views/Authentication/login_signup.dart';
 import 'package:inq_app/views/profile/app_settings.dart';
 import 'package:inq_app/views/profile/feedback_support.dart';
+import 'package:inq_app/views/profile/contact_us.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -74,7 +75,7 @@ class _ProfileState extends State<Profile> {
             ),
             ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(Colors.grey)),
+                  backgroundColor: WidgetStateProperty.all(Colors.grey)),
               onPressed: () async {
                 try {
                   await _authService.signOut();
@@ -132,7 +133,7 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SingleChildScrollView(
         child: Stack(
           children: [
@@ -189,7 +190,10 @@ class _ProfileState extends State<Profile> {
                           child: Center(
                             child: IconButton(
                               onPressed: _pickImage,
-                              icon: const Icon(Icons.add_a_photo),
+                              icon: Icon(
+                                Icons.add_a_photo,
+                                color: Colors.grey.shade600,
+                              ),
                             ),
                           ),
                         ),
@@ -212,7 +216,7 @@ class _ProfileState extends State<Profile> {
                     child: Container(
                       height: 400,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).colorScheme.onTertiary,
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Padding(
@@ -250,7 +254,14 @@ class _ProfileState extends State<Profile> {
                             ListTile(
                               leading: const Icon(Icons.call_outlined),
                               title: const Text('Contact Us'),
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const ContactUs(),
+                                  ),
+                                );
+                              },
                             ),
                             const Divider(),
                             ListTile(

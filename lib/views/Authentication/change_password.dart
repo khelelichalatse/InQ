@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:inq_app/services/firebase_auth_service.dart';
-import 'package:inq_app/views/Authentication/login_.dart';
 import 'package:inq_app/functional_supports/responsive.dart';
+import 'package:inq_app/views/Authentication/login_signup.dart';
 import 'package:lottie/lottie.dart';
 
 class EmailResetPasswordScreen extends StatefulWidget {
@@ -39,7 +40,7 @@ class _EmailResetPasswordScreenState extends State<EmailResetPasswordScreen>
   Future<void> _sendResetLink() async {
     if (_formKey.currentState!.validate()) {
       setState(() => _isLoading = true);
-      
+
       try {
         final email = _emailController.text.trim();
 
@@ -60,7 +61,8 @@ class _EmailResetPasswordScreenState extends State<EmailResetPasswordScreen>
           if (!mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Email not found. Please check your email or sign up.'),
+              content:
+                  Text('Email not found. Please check your email or sign up.'),
               backgroundColor: Colors.red,
             ),
           );
@@ -69,7 +71,7 @@ class _EmailResetPasswordScreenState extends State<EmailResetPasswordScreen>
 
         // Send password reset email
         await _auth.sendPasswordResetEmail(email);
-        
+
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -84,7 +86,7 @@ class _EmailResetPasswordScreenState extends State<EmailResetPasswordScreen>
           if (mounted) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const Login()),
+              MaterialPageRoute(builder: (context) => const LoginScreenHome()),
             );
           }
         });
@@ -202,9 +204,8 @@ class _EmailResetPasswordScreenState extends State<EmailResetPasswordScreen>
                   ? const SizedBox(
                       width: 20,
                       height: 20,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2,
-                        color: Colors.white,
+                      child: SpinKitCircle(
+                        color: Colors.orange,
                       ),
                     )
                   : Text(

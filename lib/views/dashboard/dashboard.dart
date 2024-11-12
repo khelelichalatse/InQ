@@ -210,12 +210,7 @@ class _DashboardState extends State<Dashboard> {
     } else {
       return GestureDetector(
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AppointmentScreen(),
-            ),
-          );
+          Navigator.of(context).pushNamed('/navBar', arguments: 1);
         },
         child: Container(
           child: Column(
@@ -380,7 +375,7 @@ class _DashboardState extends State<Dashboard> {
       height: ResponsiveWidget.isMobile(context) ? 350 : double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
-        color: Colors.grey[350],
+        color: Theme.of(context).colorScheme.onTertiary,
       ),
       child: Column(
         children: [

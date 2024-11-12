@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inq_app/models/appointment_model.dart';
 import 'package:inq_app/services/firebase_firestore_service.dart';
 import 'package:inq_app/functional_supports/responsive.dart';
+import 'package:inq_app/views/profile/feedback_support.dart';
 
 class ServiceRating extends StatefulWidget {
   final Appointment appointment;
@@ -127,8 +128,11 @@ class _ServiceRatingState extends State<ServiceRating> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Feedback submitted successfully'),
+          backgroundColor: Colors.green,
         ),
       );
+      Navigator.push(context,
+          MaterialPageRoute(builder: (context) => const FeedbackSupport()));
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -250,8 +254,7 @@ class _ServiceRatingState extends State<ServiceRating> {
                     vertical: SizeConfig.height(2),
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(SizeConfig.width(7.5)
-                    ),
+                    borderRadius: BorderRadius.circular(SizeConfig.width(7.5)),
                   ),
                 ),
                 child: Text(
