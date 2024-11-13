@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:inq_app/services/firebase_auth_service.dart';
 import 'package:email_otp/email_otp.dart';
 
+// Screen for handling password changes with email verification
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
 
@@ -11,7 +12,10 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+  // Form key for validation
   final _formKey = GlobalKey<FormState>();
+  
+  // Firebase and service instances
   final _auth = FirebaseAuth.instance;
   final AuthService _authService = AuthService();
   bool _isVerified = false;
@@ -21,6 +25,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   bool _isPasswordVisible = false;
   String? _currentPassword;
 
+  // Main method to handle verification and password change
   Future<void> _verifyAndChangePassword() async {
     if (!_formKey.currentState!.validate()) return;
     

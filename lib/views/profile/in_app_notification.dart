@@ -1,3 +1,4 @@
+// Screen for managing in-app notification preferences
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,9 +10,11 @@ class NotificationSettings extends StatefulWidget {
 }
 
 class _NotificationSettingsState extends State<NotificationSettings> {
-  bool _notificationsEnabled = true;
-  Duration _reminderDuration = const Duration(hours: 24); // Default to 24 hours
+  // State variables for notification settings
+  bool _notificationsEnabled = true;  // Toggle for notifications
+  Duration _reminderDuration = const Duration(hours: 24); // Default reminder time
 
+  // Available reminder options
   final List<Map<String, dynamic>> _reminderOptions = [
     {'label': '30 minutes before', 'duration': const Duration(minutes: 30)},
     {'label': '1 hour before', 'duration': const Duration(hours: 1)},
@@ -19,12 +22,7 @@ class _NotificationSettingsState extends State<NotificationSettings> {
     {'label': '1 day before', 'duration': const Duration(hours: 24)},
   ];
 
-  @override
-  void initState() {
-    super.initState();
-    _loadSettings();
-  }
-
+  // Load saved settings from SharedPreferences
   _loadSettings() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -35,12 +33,14 @@ class _NotificationSettingsState extends State<NotificationSettings> {
     });
   }
 
+  // Save current settings to SharedPreferences
   _saveSettings() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('notificationsEnabled', _notificationsEnabled);
     await prefs.setInt('reminderMinutes', _reminderDuration.inMinutes);
   }
 
+  // Helper method to get human-readable duration label
   String _getDurationLabel(Duration duration) {
     final option = _reminderOptions.firstWhere(
       (element) => element['duration'] == duration,
@@ -48,6 +48,12 @@ class _NotificationSettingsState extends State<NotificationSettings> {
           {'label': '1 day before', 'duration': const Duration(hours: 24)},
     );
     return option['label'] as String;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
   }
 
   @override

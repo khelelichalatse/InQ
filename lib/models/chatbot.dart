@@ -1,8 +1,9 @@
+// Model class for managing chatbot messages and conversations
 class ChatMessage {
-  final String id;
-  final String text;
-  final bool isUser;
-  final DateTime timestamp;
+  final String id;    
+  final String text;    
+  final bool isUser;     
+  final DateTime timestamp; 
 
   ChatMessage({
     required this.id,
@@ -28,6 +29,4 @@ class ChatMessage {
       'timestamp': timestamp.toIso8601String(),
     };
   }
-
-  // ... existing fromJson method ...
 }

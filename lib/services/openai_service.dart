@@ -2,16 +2,19 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
 
+// Service class handling OpenAI API interactions for chatbot functionality
 class OpenAIService {
   final List<Map<String, String>> messages = [];
   String botPersona = "You are a banking bot called bankbot and you are supposed to only talk about banking.";
   DateTime? _lastRequestTime;
   static const _minTimeBetweenRequests = Duration(seconds: 1);
 
+  // Sets the chatbot's personality and behavior
   void setBotPersona(String persona) {
     botPersona = persona;
   }
 
+  // Sends user message to ChatGPT API and receives response
   Future<String> chatGPTAPI(String prompt) async {
     if (_lastRequestTime != null) {
       final timeSinceLastRequest = DateTime.now().difference(_lastRequestTime!);
@@ -58,6 +61,7 @@ class OpenAIService {
     }
   }
 
+  // Clears conversation history
   void clearContext() {
     messages.clear();
   }

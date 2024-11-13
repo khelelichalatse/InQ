@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+// Screen for composing and sending emails through the application
 class ComposeEmailLayout extends StatefulWidget {
   const ComposeEmailLayout({super.key});
 
@@ -315,6 +316,7 @@ class _ComposeEmailLayoutState extends State<ComposeEmailLayout> {
     );
   }
 
+  // Save email to Firestore for record keeping
   Future<void> saveEmailToFirestore({
     required String recipientEmail,
     required String subject,
@@ -338,6 +340,7 @@ class _ComposeEmailLayoutState extends State<ComposeEmailLayout> {
     }
   }
 
+  // Send email using EmailJS service
   Future sendEmail({
     required String email,
     required String subject,

@@ -7,10 +7,12 @@ import 'package:inq_app/models/quick_updates_model.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// Service class handling all Firestore database operations
 class FirestoreService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
+  // Fetches user data from Firestore using the current user's UID
   Future<UserData?> fetchUserData() async {
     User? user = _auth.currentUser;
     if (user != null) {
@@ -35,6 +37,7 @@ class FirestoreService {
     return null;
   }
 
+  // Returns a reference to the user's appointments collection
   CollectionReference getAppointmentCollection() {
     User? user = _auth.currentUser;
     if (user != null) {
@@ -49,6 +52,7 @@ class FirestoreService {
     }
   }
 
+  // Provides a stream of user's appointments for real-time updates
   Stream<List<Appointment>> getAppointments() {
     return getAppointmentCollection().snapshots().map((snapshot) {
       return snapshot.docs.map((doc) {
@@ -58,6 +62,7 @@ class FirestoreService {
     });
   }
 
+  // Determines the current status of an appointment based on its date and time
   String _determineAppointmentStatus(
       DateTime appointmentDate, TimeOfDay appointmentTime, String dbStatus) {
     DateTime now = DateTime.now();
@@ -86,6 +91,7 @@ class FirestoreService {
     return 'Upcoming';
   }
 
+  // Retrieves the most recent appointment for the current user
   Future<DocumentSnapshot?> getLatestAppointment() async {
     try {
       QuerySnapshot querySnapshot = await getAppointmentCollection()
@@ -102,6 +108,7 @@ class FirestoreService {
     return null;
   }
 
+  // Fetches the earliest available appointment for a specific department and service
   Future<Appointment?> getEarliestAppointment(
       String department, String service) async {
     try {
@@ -124,6 +131,7 @@ class FirestoreService {
     return null;
   }
 
+  // Gets the next upcoming appointment for a specific user
   Future<Appointment?> getUpcomingAppointment(String userId) async {
     try {
       final now = DateTime.now();
@@ -149,6 +157,7 @@ class FirestoreService {
     }
   }
 
+  // Handles the cancellation of an appointment and updates related collections
   Future<void> cancelAppointment(Appointment appointment) async {
     try {
       final user = FirebaseAuth.instance.currentUser;

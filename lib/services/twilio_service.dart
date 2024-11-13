@@ -63,6 +63,7 @@ class TwilioServiceOTP {
 class TwilioServiceSMS {
   late TwilioFlutter twilioFlutter;
 
+  // Initializes Twilio service with credentials
   TwilioServiceSMS() {
     twilioFlutter = TwilioFlutter(
       accountSid: 'AC060c09c7e9e0031a06ddb15dba6c13fd',
@@ -71,6 +72,7 @@ class TwilioServiceSMS {
     );
   }
 
+  // Sends SMS messages using Twilio
   Future<void> sendSMS(String toNumber, String messageBody) async {
     try {
       await twilioFlutter.sendSMS(

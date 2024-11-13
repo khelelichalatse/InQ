@@ -1,11 +1,14 @@
+// Model class representing Quick access links for the application
+
 class Link {
-  final String title;
-  final String url;
-  final String image;
+  final String title;    
+  final String url;      
+  final String image;   
 
   Link({required this.title, required this.url, required this.image});
 }
 
+// Predefined list of quick access links for the application
 List<Link> links = [
   Link(
       title: 'Cental University of Technology',

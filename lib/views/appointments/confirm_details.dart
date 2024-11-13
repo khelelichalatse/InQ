@@ -20,8 +20,69 @@ class ConfirmDetailsScreen extends StatelessWidget {
     required this.selectedTimeSlot,
   });
 
+  // Handle appointment confirmation and submission
+  void _confirmAppointment(BuildContext context) async {
+    print("Confirming appointment..."); // Debug print
+    final appointmentProvider =
+        Provider.of<AppointmentProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final firestoreService = FirestoreService();
+    final twilioService = TwilioServiceSMS();
+
+    if (userProvider.userData == null) {
+      print("User data is null"); // Debug print
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+            content: Text('User data not available. Please try again.')),
+      );
+      return;
+    }
+
+    String selectedDateFormatted =
+        DateFormat('yyyy-MM-dd').format(selectedDate);
+
+    try {
+      // Generate reference number before booking the appointment
+      String appointmentReferenceNumber =
+          await firestoreService.generateReferenceNumber(selectedDateFormatted,
+              appointmentProvider.department, appointmentProvider.service);
+
+      // Use the FirestoreService to book the appointment with the generated reference number
+      await firestoreService.bookAppointment(
+        appointmentProvider.department,
+        appointmentProvider.service,
+        selectedDateFormatted,
+        selectedTimeSlot,
+        referenceNumber: appointmentReferenceNumber,
+      );
+
+      print(
+          "Appointment booked successfully with reference number: $appointmentReferenceNumber"); // Debug print
+
+      // Send SMS confirmation
+      String messageBody = '''Your appointment has been booked successfully.
+Reference Number: $appointmentReferenceNumber
+Date: $selectedDateFormatted
+Time: $selectedTimeSlot
+Department: ${appointmentProvider.department} 
+Service: ${appointmentProvider.service}
+    ''';
+
+      await twilioService.sendSMS(
+          userProvider.userData!.phoneNumber, messageBody);
+
+      _showConfirmationDialog(context, appointmentReferenceNumber);
+    } catch (e) {
+      print("Error booking appointment: $e"); // Debug print
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error booking appointment: $e')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Access providers for appointment and user data
     final appointmentProvider = Provider.of<AppointmentProvider>(context);
     final userProvider = Provider.of<UserProvider>(context);
 
@@ -181,65 +242,6 @@ class ConfirmDetailsScreen extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  void _confirmAppointment(BuildContext context) async {
-    print("Confirming appointment..."); // Debug print
-    final appointmentProvider =
-        Provider.of<AppointmentProvider>(context, listen: false);
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final firestoreService = FirestoreService();
-    final twilioService = TwilioServiceSMS();
-
-    if (userProvider.userData == null) {
-      print("User data is null"); // Debug print
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('User data not available. Please try again.')),
-      );
-      return;
-    }
-
-    String selectedDateFormatted =
-        DateFormat('yyyy-MM-dd').format(selectedDate);
-
-    try {
-      // Generate reference number before booking the appointment
-      String appointmentReferenceNumber =
-          await firestoreService.generateReferenceNumber(selectedDateFormatted,
-              appointmentProvider.department, appointmentProvider.service);
-
-      // Use the FirestoreService to book the appointment with the generated reference number
-      await firestoreService.bookAppointment(
-        appointmentProvider.department,
-        appointmentProvider.service,
-        selectedDateFormatted,
-        selectedTimeSlot,
-        referenceNumber: appointmentReferenceNumber,
-      );
-
-      print(
-          "Appointment booked successfully with reference number: $appointmentReferenceNumber"); // Debug print
-
-      // Send SMS confirmation
-      String messageBody = '''Your appointment has been booked successfully.
-Reference Number: $appointmentReferenceNumber
-Date: $selectedDateFormatted
-Time: $selectedTimeSlot
-Department: ${appointmentProvider.department} 
-Service: ${appointmentProvider.service}
-    ''';
-
-      await twilioService.sendSMS(
-          userProvider.userData!.phoneNumber, messageBody);
-
-      _showConfirmationDialog(context, appointmentReferenceNumber);
-    } catch (e) {
-      print("Error booking appointment: $e"); // Debug print
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error booking appointment: $e')),
-      );
-    }
   }
 
   void _showConfirmationDialog(

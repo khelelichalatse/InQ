@@ -10,6 +10,7 @@ class AppointmentInfo extends StatefulWidget {
 }
 
 class _AppointmentInfoState extends State<AppointmentInfo> {
+  // Selected department and service for the appointment
   String? selectedDepartment;
   String? selectedService;
 

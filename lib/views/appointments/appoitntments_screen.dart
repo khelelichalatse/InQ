@@ -12,6 +12,7 @@ import 'package:lottie/lottie.dart';
 import 'package:inq_app/services/firebase_messaging_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+// Main screen for displaying and managing appointments
 class AppointmentScreen extends StatefulWidget {
   const AppointmentScreen({super.key});
 
@@ -20,10 +21,13 @@ class AppointmentScreen extends StatefulWidget {
 }
 
 class _AppointmentScreenState extends State<AppointmentScreen> {
+  // Firebase instances for authentication and database
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   FirestoreService firestoreService = FirestoreService();
-  int _selectedFilterIndex = 1; // 0 -> All, 1 -> Upcoming, 2 -> Past
+  
+  // Filter index: 0 -> All, 1 -> Upcoming, 2 -> Past
+  int _selectedFilterIndex = 1;
   final NotificationService notificationService = NotificationService();
 
   @override
@@ -32,6 +36,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     notificationService.initialize();
   }
 
+  // Filter appointments based on their status
   List<Appointment> _filterAppointments(List<Appointment> appointments) {
     switch (_selectedFilterIndex) {
       case 0: // All
@@ -49,6 +54,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     }
   }
 
+  // Parse time string to TimeOfDay object
   TimeOfDay _parseTime(String timeString) {
     final parts = timeString.split(':');
     final hour = int.parse(parts[0]);
@@ -56,6 +62,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
     return TimeOfDay(hour: hour, minute: minute);
   }
 
+  // Load user's reminder time preference
   Future<String> _loadReminderTime() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('reminderTime') ?? '1 hour before';
@@ -338,7 +345,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           const SizedBox(height: 24),
           ElevatedButton.icon(
             onPressed: () {
-              setState(() {}); // Refresh the page
+              setState(() {});
             },
             icon: const Icon(Icons.refresh),
             label: const Text('Retry'),
@@ -523,7 +530,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
               height: 100,
               width: 100,
               repeat: message
-                  .contains('Cancelling'), // Only repeat for loading state
+                  .contains('Cancelling'), 
             ),
             const SizedBox(height: 16),
             Text(

@@ -55,16 +55,16 @@ class _CheckAvailabilityState extends State<CheckAvailability> {
 
   // Show the available time slots as a dialog
   void _showAvailableTimeSlotsDialog() {
-    // Step 1: Convert time slots to DateTime objects for sorting
+    // Convert time slots to DateTime objects for sorting
     List<DateTime> sortedTimeSlots = _availableTimeSlots.map((timeSlot) {
       // Assuming timeSlot is in "HH:mm" format
       return DateFormat("HH:mm").parse(timeSlot);
     }).toList();
 
-    // Step 2: Sort the time slots
+    // Sort the time slots
     sortedTimeSlots.sort((a, b) => a.compareTo(b));
 
-    // Step 3: Convert the sorted DateTime back to the original format
+    // Convert the sorted DateTime back to the original format
     List<String> sortedTimeSlotsString = sortedTimeSlots
         .map((timeSlot) => DateFormat("HH:mm").format(timeSlot))
         .toList();

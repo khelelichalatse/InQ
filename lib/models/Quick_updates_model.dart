@@ -1,9 +1,10 @@
+// Model class for handling news updates and announcements
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class QuickUpdate {
-  final String title;
-  final String newsBody;
-  final String imageUrl;
+  final String title;      
+  final String newsBody;   
+  final String imageUrl;   
   final DateTime timestamp;
 
   QuickUpdate({

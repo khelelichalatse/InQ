@@ -7,6 +7,9 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:inq_app/functional_supports/responsive.dart';
 
+// Widget for displaying scrollable news and updates on the dashboard
+
+// Implements auto-scrolling carousel of important announcements
 class UpdateSlider extends StatefulWidget {
   const UpdateSlider({super.key});
 

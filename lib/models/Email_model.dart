@@ -1,12 +1,13 @@
+// Model class for handling email messages within the application
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Email {
-  final String id;
-  final String subject;
-  final String body;
-  final String sender;
-  final String recipient;
-  final DateTime timestamp;
+  final String id;        
+  final String subject;   
+  final String body;  
+  final String sender;    
+  final String recipient; 
+  final DateTime timestamp; 
 
   Email({
     required this.id,

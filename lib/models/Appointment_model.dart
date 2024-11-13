@@ -1,6 +1,8 @@
+// Model class representing a medical appointment in the system
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+// Main appointment class containing all appointment-related information
 class Appointment {
   final String service;
   final String department;
@@ -8,7 +10,7 @@ class Appointment {
   final TimeOfDay appointmentTime;
   final String appointmentReferenceNumber;
   final String status;
-  final String studentId; // Changed from studentID to match the constructor
+  final String studentId; 
   final String patientName;
   final String id;
 
@@ -19,7 +21,7 @@ class Appointment {
     required this.appointmentTime,
     required this.appointmentReferenceNumber,
     required this.status,
-    required this.studentId, // Changed parameter name to match
+    required this.studentId, 
     required this.patientName,
     required this.id,
   });
@@ -40,7 +42,7 @@ class Appointment {
       appointmentTime: TimeOfDay(hour: hour, minute: minute),
       appointmentReferenceNumber: data['AppointmentReferenceNumber'] ?? '',
       status: data['Status'] ?? 'In Progress',
-      studentId: data['StudentID'] ?? '', // Match the field name in Firestore
+      studentId: data['StudentID'] ?? '', 
       patientName: data['Patient Name'] ?? 'Unknown',
       id: doc.id,
     );

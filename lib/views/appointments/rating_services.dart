@@ -14,6 +14,7 @@ class ServiceRating extends StatefulWidget {
 }
 
 class _ServiceRatingState extends State<ServiceRating> {
+  // Questions for service rating
   final List<String> _questions = [
     'I was satisfied with the services.',
     'I was handled and treated professionally.',
@@ -24,12 +25,16 @@ class _ServiceRatingState extends State<ServiceRating> {
     'I will use the clinic again in the future.',
   ];
 
+  // Rating options
   final List<String> _ratings = ['EXCELLENT', 'GOOD', 'AVERAGE', 'POOR'];
-  final List<int> _selectedRatings = List.filled(7, -1); // Initialize with -1
+  // Initialize ratings array with -1 (no rating selected)
+  final List<int> _selectedRatings = List.filled(7, -1);
+  
+  // Controller for additional comments
   final TextEditingController commentController = TextEditingController();
-  final FirestoreService _firestoreService =
-      FirestoreService(); // Firestore Service for submitting feedback
+  final FirestoreService _firestoreService = FirestoreService();
 
+  // Build individual rating button with visual feedback
   Widget _buildRatingButton(int questionIndex, int ratingIndex, String rating) {
     bool isSelected = _selectedRatings[questionIndex] == ratingIndex;
     return GestureDetector(

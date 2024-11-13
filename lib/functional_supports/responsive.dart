@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// A widget that provides responsive layout capabilities based on screen width
+// Allows different widgets to be displayed for mobile, tablet, and desktop views
 class ResponsiveWidget extends StatelessWidget {
   final Widget mobile;
   final Widget? tablet;
@@ -12,6 +14,7 @@ class ResponsiveWidget extends StatelessWidget {
     this.desktop,
   }) : super(key: key);
 
+  // Helper methods to determine current screen size
   static bool isMobile(BuildContext context) =>
       MediaQuery.of(context).size.width < 650;
 
@@ -24,6 +27,7 @@ class ResponsiveWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Uses LayoutBuilder to determine available space and return appropriate widget
     return LayoutBuilder(
       builder: (context, constraints) {
         if (constraints.maxWidth >= 1100) {
@@ -38,6 +42,7 @@ class ResponsiveWidget extends StatelessWidget {
   }
 }
 
+// Utility class for responsive sizing calculations
 class SizeConfig {
   static MediaQueryData? _mediaQueryData;
   static double? screenWidth;
@@ -45,6 +50,7 @@ class SizeConfig {
   static double? blockSizeHorizontal;
   static double? blockSizeVertical;
 
+  // Initialize screen dimensions and calculate block sizes
   void init(BuildContext context) {
     _mediaQueryData = MediaQuery.of(context);
     screenWidth = _mediaQueryData!.size.width;
@@ -53,6 +59,7 @@ class SizeConfig {
     blockSizeVertical = screenHeight! / 100;
   }
 
+  // Utility methods to calculate responsive sizes
   static double text(double size) {
     return blockSizeHorizontal! * size;
   }

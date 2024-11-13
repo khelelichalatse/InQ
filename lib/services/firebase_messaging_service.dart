@@ -8,6 +8,7 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin notificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
+  // Initializes Firebase Messaging and requests necessary permissions
   Future<void> initFirebaseMessaging() async {
     // Request notification permissions
     NotificationSettings settings = await _firebaseMessaging.requestPermission(
